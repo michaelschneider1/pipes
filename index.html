@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pipes</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+        <header>
+            <h1>Pipes</h1>
+            <p id="puzzle-info">Date. Puzzle #X</p>
+        </header>
+
+        <section id="intro">
+            <div id="instructions">
+                <h2>How to Play</h2>
+                    <ul>
+                        <li>Rotate the pipes by clicking on them</li>
+                        <li>Connect the flow from S to E</li>
+                        <li>Every pipe on the board must be connected</li>
+                        <li>No leaks allowed!</li>
+                    </ul>
+                <div id="tile-preview">
+                    <div class="preview-item">
+                        <canvas id="preview-S" width="40" height="40"></canvas>
+                        <span>Start</span>
+                    </div>
+                    <div class="preview-item">
+                        <canvas id="preview-E" width="40" height="40"></canvas>
+                        <span>End</span>
+                    </div>
+                </div>
+            </div>
+        <button id="start-btn">Start</button>
+        </section>
+
+        <section id="game" class="hidden">
+            <div id="timer">0:00</div>
+            <div id="grid"></div>
+        </section>
+
+        <div id="game-over" class="hidden">
+            <div id="game-over-box">
+                <h2>Solved!</h2>
+                <p>Final Time: <span id= "final-time"></span></p>
+                <p>Thank you for playing!</p>
+                <p>New puzzle in: <span id= "countdown"></span></p>
+            </div>
+        </div>
+
+        <script src="js/game.js"></script>
+        <script src="js/render.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

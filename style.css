@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700;800&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: #d6f3ff;
+  color: #004d8b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 0 1rem 0;
+}
+
+header h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+header p {
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+  opacity: 0.7;
+}
+
+#intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+#start-btn {
+  background-color: #004d8b;
+  color: #d6f3ff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.9rem 3rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#start-btn:hover {
+  background-color: #003a6b;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+#grid {
+  display: grid;
+  gap: 3px;
+  background-color: #a0c4e8;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+#timer {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+#game-over {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#game-over-box {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 320px;
+  width: 90%;
+}
+
+#game-over-box h2 {
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+#game-over-box p {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.cell {
+  width: 64px;
+  height: 64px;
+  background-color: #d6f3ff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cell.locked {
+  cursor: default;
+}
+
+#instructions {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  max-width: 320px;
+  width: 90%;
+}
+
+#instructions h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+#instructions ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+#instructions li {
+  font-size: 0.95rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+#instructions li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #004d8b;
+  font-weight: 700;
+}
+
+#tile-preview {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1.2rem;
+}
+
+.preview-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #004d8b;
+}
