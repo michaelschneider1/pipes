@@ -72,19 +72,22 @@ function isSolved(grid, source, sink) {
 }
 
 //puzzle loader
-async function loadPuzzle() {
-  const start = new Date('2026-05-03');
-  const today = new Date();
+async function loadPuzzle(overrideNumber = null) {
+  let puzzleNumber = overrideNumber;
 
-  today.setHours(0, 0, 0, 0);
-  start.setHours(0, 0, 0, 0);
+  if (!puzzleNumber) {
+    const start = new Date('2026-05-03');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    start.setHours(0, 0, 0, 0);
 
-  const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24));
-  const puzzleNumber = (diff % 30) + 1;
+    const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
+    const totalPuzzles = 30; //FIXED NUMBER! CHANGE WHEN ADD MORE PUZZLES
+    puzzleNumber = ((diff - 1) % totalPuzzles) + 1;
+  }
 
   const response = await fetch(`puzzles/${puzzleNumber}.json`);
   const data = await response.json();
-
   return { ...data, puzzleNumber };
 }
 
