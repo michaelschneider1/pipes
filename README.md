@@ -2,7 +2,7 @@
 A daily puzzle inspired by games such as the NYT games (like Wordle, Connections, Strands, etc...) and the LinkedIn games (Zip, Patches, Queens, Tango, etc...) built with HTML, CSS, and Java Script.
 A new puzzle is available daily at midnight.
 
-🔗 Live Site:
+🔗 Live Site: https://michaelschneider1.github.io/pipes/
 
 **About**
 Pipes is a grid-based puzzle where players rotate tiles to connect a flow from source to end with no leaks. Each day features a new handcrafted puzzle that resets at midnight.
@@ -13,6 +13,7 @@ Pipes is a grid-based puzzle where players rotate tiles to connect a flow from s
 - Flood fill algorithm to trace live pipe connections
 - Canvas-based rendering for smooth pipe drawing
 - Clean responsive UI built without any frameworks
+- Local tester for previewing any puzzle by date
 
 
 **Built With**
@@ -24,3 +25,14 @@ Pipes is a grid-based puzzle where players rotate tiles to connect a flow from s
 **How To Run Locally**
 1. Clone the repository
 2. Open index.html with Live Server in VS Code
+3. (Optional) Open tester.html with Liver Server in VS Code to practice future date's games
+
+**Generate New Puzzles**
+New puzzle batches can be generated using the following:
+node generate-puzzles.js
+- Update the `START` variable in the script to generate the next batch (31, 61, etc.)
+After generating a new batch, update the `totalPuzzles` variable in two places:
+- `js/game.js` inside the `loadPuzzle` function
+- `test.html` inside the `loadTestPuzzle` function
+Change the value to match the new total number of puzzles you have.
+For example, after generating puzzles 31-60, change `totalPuzzles` to `60`.
