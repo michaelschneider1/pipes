@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pipes Tester</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      #tester-bar {
+        background-color: #004d8b;
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+      #tester-bar input {
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        border: none;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.95rem;
+      }
+      #tester-bar button {
+        padding: 0.4rem 1.2rem;
+        border-radius: 6px;
+        border: none;
+        background: #ffcc00;
+        color: #004d8b;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      #tester-result {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tester-bar">
+      TESTER MODE
+      <input type="date" id="date-input" />
+      <button onclick="loadTestPuzzle()">Load</button>
+      <span id="tester-result"></span>
+    </div>
+
+    <header>
+      <h1>Pipes</h1>
+      <p id="puzzle-info"></p>
+    </header>
+
+    <section id="game">
+      <div id="timer" class="hidden"></div>
+      <div id="grid"></div>
+    </section>
+
+    <div id="game-over" class="hidden">
+      <div id="game-over-box">
+        <h2>Solved!</h2>
+        <p>Final Time: <span id="final-time"></span></p>
+        <p>Thank you for playing!</p>
+        <p>New puzzle in: <span id="countdown"></span></p>
+      </div>
+    </div>
+
+    <script src="js/game.js"></script>
+    <script src="js/render.js"></script>
+    <script>
+      let puzzle = null;
+
+      // Set date input to today by default
+      const today = new Date();
+      document.getElementById('date-input').value = today.toISOString().split('T')[0];
+
+      async function loadTestPuzzle() {
+        const dateVal = document.getElementById('date-input').value;
+        if (!dateVal) return;
+
+        const selected = new Date(dateVal + 'T00:00:00');
+        const start = new Date('2026-05-03');
+        selected.setHours(0, 0, 0, 0);
+        start.setHours(0, 0, 0, 0);
+
+        const diff = Math.floor((selected - start) / (1000 * 60 * 60 * 24)) + 1;
+        const totalPuzzles = 30; //FIXED NUMBER! CHANGE WHEN ADD MORE PUZZLES
+        const puzzleNumber = ((diff - 1) % totalPuzzles) + 1;
+
+        const response = await fetch(`puzzles/${puzzleNumber}.json`);
+        puzzle = await response.json();
+        puzzle.puzzleNumber = puzzleNumber;
+
+        const dateStr = selected.toLocaleDateString('en-US', {
+          month: 'long', day: 'numeric', year: 'numeric'
+        });
+
+        document.getElementById('puzzle-info').textContent = `${dateStr} · Puzzle #${puzzleNumber}`;
+        document.getElementById('tester-result').textContent = `→ Loaded puzzle #${puzzleNumber}`;
+
+        const sourceCell = getCellAt(puzzle.grid, puzzle.source.x, puzzle.source.y);
+        const filledSet = floodFill(puzzle.grid, sourceCell);
+        drawGrid(puzzle.grid, puzzle.source, puzzle.sink, filledSet);
+        addTileListeners();
+      }
+
+      function addTileListeners() {
+        document.querySelectorAll('.cell').forEach((div, index) => {
+          div.addEventListener('click', () => {
+            const tile = puzzle.grid[index];
+            const rotated = rotateTile(tile);
+            if (!rotated) return;
+            const sourceCell = getCellAt(puzzle.grid, puzzle.source.x, puzzle.source.y);
+            const filledSet = floodFill(puzzle.grid, sourceCell);
+            drawGrid(puzzle.grid, puzzle.source, puzzle.sink, filledSet);
+            addTileListeners();
+            if (isSolved(puzzle.grid, sourceCell, getCellAt(puzzle.grid, puzzle.sink.x, puzzle.sink.y))) {
+              document.getElementById('game-over').classList.remove('hidden');
+            }
+          });
+        });
+      }
+
+      // Load today's puzzle automatically on open
+      loadTestPuzzle();
+    </script>
+  </body>
+</html>
