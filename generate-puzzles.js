@@ -102,20 +102,57 @@ function generatePuzzle() {
     }
   }
 
-  const pathKeys = new Set(path.map(p => `${p.x},${p.y}`));
+  // Build path index
+  const pathIndex = new Map();
+  path.forEach((p, i) => pathIndex.set(`${p.x},${p.y}`, i));
 
+  // First pass — assign base connections from path order
+  const cellConns = new Map();
   for (let i = 0; i < path.length; i++) {
     const { x, y } = path[i];
-    const neededConns = [];
-    if (i > 0) neededConns.push(dirBetween(x, y, path[i - 1].x, path[i - 1].y));
-    if (i < path.length - 1) neededConns.push(dirBetween(x, y, path[i + 1].x, path[i + 1].y));
+    const conns = [];
+    if (i > 0) conns.push(dirBetween(x, y, path[i-1].x, path[i-1].y));
+    if (i < path.length-1) conns.push(dirBetween(x, y, path[i+1].x, path[i+1].y));
+    cellConns.set(`${x},${y}`, conns);
+  }
 
-    const { type, rot } = pickTypeAndRot(neededConns);
+  // Second pass — upgrade pieces by adding mutual connections
+  for (let i = 1; i < path.length - 1; i++) {
+    const { x, y } = path[i];
+    const myConns = cellConns.get(`${x},${y}`);
+    if (myConns.length >= 3) continue;
+
+    for (const d of ALL_DIRS) {
+      if (myConns.includes(d)) continue;
+      const [dx, dy] = DIRS[d];
+      const nx = x + dx, ny = y + dy;
+      const k = `${nx},${ny}`;
+      if (!pathIndex.has(k)) continue;
+
+      const ni = pathIndex.get(k);
+      if (ni === 0 || ni === path.length - 1) continue;
+
+      const neighborConns = cellConns.get(k);
+      if (neighborConns.includes(OPP[d])) continue;
+      if (neighborConns.length >= 3) continue;
+
+      // 30% chance to upgrade both cells mutually
+      if (Math.random() < 0.30) {
+        myConns.push(d);
+        neighborConns.push(OPP[d]);
+      }
+    }
+  }
+
+  // Third pass — assign types and rotations
+  for (let i = 0; i < path.length; i++) {
+    const { x, y } = path[i];
+    const conns = cellConns.get(`${x},${y}`);
+    const { type, rot } = pickTypeAndRot(conns);
     const cell = grid[y * GRID_SIZE + x];
     cell.type = type;
     cell.rot = rot;
     cell.solvedRot = rot;
-
     if (i === 0 || i === path.length - 1) cell.locked = true;
   }
 
@@ -135,8 +172,8 @@ function generatePuzzle() {
 }
 
 // Generate puzzles
-const START = 1;  // Choose start number for puzzle name
-const COUNT = 30;
+const START = 73;  // Choose start number for puzzle name
+const COUNT = 356;
 
 const outDir = path.join(__dirname, 'puzzles');
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir);
