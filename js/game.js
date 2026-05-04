@@ -63,7 +63,7 @@ function floodFill(grid, source) {
 
 //Checks if the puzzle is solved
 function isSolved(grid, source, sink) {
-  // Check every tile — all openings must connect to a neighbor that connects back
+  // Check every tile for leaks (all openings must connect to a neighbor that connects back)
   for (const cell of grid) {
     for (const d of getConns(cell)) {
       const [dx, dy] = DIRS[d];
@@ -79,7 +79,7 @@ function isSolved(grid, source, sink) {
     }
   }
 
-  // All connections are mutual — now check source reaches sink
+  // All connections are mutual => now check source reaches sink
   const filled = floodFill(grid, source);
   return filled.has(`${sink.x},${sink.y}`);
 }
