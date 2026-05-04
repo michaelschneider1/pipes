@@ -63,12 +63,25 @@ function floodFill(grid, source) {
 
 //Checks if the puzzle is solved
 function isSolved(grid, source, sink) {
+  // Check every tile — all openings must connect to a neighbor that connects back
+  for (const cell of grid) {
+    for (const d of getConns(cell)) {
+      const [dx, dy] = DIRS[d];
+      const nx = cell.x + dx;
+      const ny = cell.y + dy;
+
+      // Opening points off the board = leak
+      if (nx < 0 || nx >= GRID_SIZE || ny < 0 || ny >= GRID_SIZE) return false;
+
+      // Neighbor doesn't connect back = leak
+      const neighbor = getCellAt(grid, nx, ny);
+      if (!getConns(neighbor).includes(OPP[d])) return false;
+    }
+  }
+
+  // All connections are mutual — now check source reaches sink
   const filled = floodFill(grid, source);
-
-  const allFilled = filled.size === GRID_SIZE * GRID_SIZE;
-  const reachesSink = filled.has(`${sink.x},${sink.y}`);
-
-  return allFilled && reachesSink;
+  return filled.has(`${sink.x},${sink.y}`);
 }
 
 //puzzle loader
