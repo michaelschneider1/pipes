@@ -176,3 +176,44 @@ header p {
   font-weight: 700;
   color: #004d8b;
 }
+
+/* Admire button*/
+#admire-btn {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  background: transparent;
+  color: var(--accent, #004d8b);
+  border: 2px solid var(--accent, #004d8b);
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.15s;
+}
+
+#admire-btn:hover {
+  background: var(--accent, #004d8b);
+  color: white;
+}
+
+/*View results button*/
+#view-results-btn {
+  padding: 10px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  background: transparent;
+  color: #004d8b;
+  border: 2px solid #004d8b;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.15s;
+}
+
+#view-results-btn:hover {
+  background: #004d8b;
+  color: #d6f3ff;
+}

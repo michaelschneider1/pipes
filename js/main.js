@@ -1,6 +1,8 @@
 let puzzle = null;
 let timerInterval = null;
 let seconds = 0;
+let gameOver = false;
+
 
 window.addEventListener('load', async () => {
   puzzle = await loadPuzzle();
@@ -18,7 +20,20 @@ window.addEventListener('load', async () => {
   document.getElementById('start-btn').addEventListener('click', startGame);
 
   drawPreviews();
+
+  //admire button 
+    document.getElementById('admire-btn').addEventListener('click', function () {
+    document.getElementById('game-over').classList.add('hidden');
+    document.getElementById('view-results-btn').classList.remove('hidden');
+    });
+
+//view results button
+    document.getElementById('view-results-btn').addEventListener('click', function () {
+    document.getElementById('game-over').classList.remove('hidden');
+    document.getElementById('view-results-btn').classList.add('hidden');
+    });
 });
+
 
 function startGame() {
   document.getElementById('intro').classList.add('hidden');
@@ -32,10 +47,11 @@ function startGame() {
 }
 
 function addTileListeners() {
-  const cells = document.querySelectorAll('.cell');
+    const cells = document.querySelectorAll('.cell');
 
   cells.forEach((div, index) => {
     div.addEventListener('click', () => {
+      if (gameOver) return; //stops game from rotating tiles after solving
       const tile = puzzle.grid[index];
       const rotated = rotateTile(tile);
 
@@ -75,7 +91,9 @@ function formatTime(secs) {
 }
 
 function onSolved() {
-  stopTimer();
+  //Stops timer and locks game so tiles can't be changed once solved
+    stopTimer();
+  gameOver = true;
 
   document.getElementById('final-time').textContent = formatTime(seconds);
 
