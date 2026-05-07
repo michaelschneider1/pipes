@@ -1,5 +1,7 @@
 **Pipes**
-A daily puzzle inspired by games such as the NYT games (like Wordle, Connections, Strands, etc...) and the LinkedIn games (Zip, Patches, Queens, Tango, etc...) built with HTML, CSS, and Java Script.
+<img width="498" height="685" alt="Screenshot 2026-05-06 at 9 35 41 PM" src="https://github.com/user-attachments/assets/f3c13149-f6e9-42ac-85be-64e4a646ff9f" />
+
+A daily puzzle inspired by games such as the NYT games (like Wordle, Connections, Strands, etc...) and the LinkedIn games (Zip, Patches, Queens, Tango, etc...) built with HTML, CSS, and JavaScript.
 A new puzzle is available daily at midnight.
 
 🔗 Live Site: https://michaelschneider1.github.io/pipes/
@@ -14,8 +16,7 @@ Pipes is a grid-based puzzle where players rotate tiles to connect a flow from s
 - Canvas-based rendering for smooth pipe drawing
 - Clean responsive UI built without any frameworks
 - Local tester for previewing any puzzle by date
-
-
+- 
 **Built With**
 1. HTML
 2. CSS
