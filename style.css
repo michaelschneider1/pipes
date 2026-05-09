@@ -217,3 +217,79 @@ header p {
   background: #004d8b;
   color: #d6f3ff;
 }
+
+/* Leaderboard name entry */
+#leaderboard-entry {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+#player-name {
+  padding: 0.5rem 0.75rem;
+  border: 2px solid #a0c4e8;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  width: 160px;
+  color: #004d8b;
+  transition: border-color 0.2s;
+}
+
+#player-name:focus {
+  border-color: #004d8b;
+}
+
+#submit-score-btn {
+  padding: 0.5rem 1rem;
+  background: #004d8b;
+  color: #d6f3ff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#submit-score-btn:hover {
+  background: #003a6b;
+}
+
+/* Leaderboard list */
+#leaderboard h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #004d8b;
+  margin-bottom: 0.5rem;
+}
+
+#leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+#leaderboard-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #f0f9ff;
+}
+
+#leaderboard-list li.you {
+  background: #d6f3ff;
+  font-weight: 700;
+}
+
+.lb-rank { color: #a0c4e8; font-size: 0.85rem; width: 20px; }
+.lb-name { flex: 1; text-align: left; }
+.lb-time { color: #004d8b; font-variant-numeric: tabular-nums; }

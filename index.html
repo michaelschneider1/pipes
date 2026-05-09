@@ -56,12 +56,23 @@
             <div id="game-over-box">
                 <h2>Solved!</h2>
                 <p>Final Time: <span id= "final-time"></span></p>
+                <!--leaderboard-->
+                <div id="leaderboard-entry">
+                    <input type="text" id="player-name" maxlength="16" placeholder="Enter your name" />
+                    <button id="submit-score-btn">Submit Score</button>
+                </div>
+                <div id="leaderboard">
+                    <h3>Today's Top 5</h3>
+                    <ol id="leaderboard-list"></ol>
+                </div>
                 <p>Thank you for playing!</p>
                 <p>New puzzle in: <span id= "countdown"></span></p>
                 <button id="admire-btn">Admire Puzzle</button>
             </div>
         </div>
-
+        
+        <!--Supabase (for leaderboard) script-->
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
         <script src="js/game.js"></script>
         <script src="js/render.js"></script>
         <script src="js/main.js"></script>

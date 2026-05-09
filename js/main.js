@@ -27,11 +27,20 @@ window.addEventListener('load', async () => {
     document.getElementById('view-results-btn').classList.remove('hidden');
     });
 
-//view results button
+    //view results button
     document.getElementById('view-results-btn').addEventListener('click', function () {
     document.getElementById('game-over').classList.remove('hidden');
     document.getElementById('view-results-btn').classList.add('hidden');
     });
+
+    //leaderboard
+    document.getElementById('submit-score-btn').addEventListener('click', async function () {
+    const name = document.getElementById('player-name').value.trim();
+    if (!name) return;
+    document.getElementById('leaderboard-entry').style.display = 'none';
+    const scores = await saveScore(name, formatTime(seconds));
+    renderLeaderboard(scores, name);
+});
 });
 
 
@@ -108,6 +117,7 @@ function onSolved() {
   document.getElementById('countdown').textContent = `${hoursLeft}h ${minsLeft}m`;
 
   document.getElementById('game-over').classList.remove('hidden');
+  loadLeaderboard().then(scores => renderLeaderboard(scores, null));
 }
 
 function drawPreviews() {
@@ -116,4 +126,54 @@ function drawPreviews() {
 
   drawCell(srcCanvas, { type: 'E', rot: 1 }, true, true, false);
   drawCell(sinkCanvas, { type: 'E', rot: 1 }, true, false, true);
+}
+
+// Leaderboard functions
+const supabase = window.supabase.createClient(
+  'https://sbxdajannvtifsuzhjyh.supabase.co',
+  'sb_publishable_t1C_9u9XAESdich6qmwMrQ_I8opR5P8'
+);
+
+function getTodayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+async function saveScore(name, timeString) {
+  await supabase.from('scores').insert({
+    name: name,
+    time_string: timeString,
+    time_raw: seconds,
+    puzzle_date: getTodayKey()
+  });
+  return await loadLeaderboard();
+}
+
+async function loadLeaderboard() {
+  const { data } = await supabase
+    .from('scores')
+    .select('name, time_string, time_raw')
+    .eq('puzzle_date', getTodayKey())
+    .order('time_raw', { ascending: true })
+    .limit(5);
+  return data || [];
+}
+
+function renderLeaderboard(scores, highlightName) {
+  const list = document.getElementById('leaderboard-list');
+  list.innerHTML = '';
+  if (scores.length === 0) {
+    list.innerHTML = '<li style="color:#a0c4e8;text-align:center;justify-content:center">No scores yet today</li>';
+    return;
+  }
+  scores.forEach((entry, i) => {
+    const li = document.createElement('li');
+    if (entry.name === highlightName) li.classList.add('you');
+    li.innerHTML = `
+      <span class="lb-rank">#${i + 1}</span>
+      <span class="lb-name">${entry.name}</span>
+      <span class="lb-time">${entry.time_string}</span>
+    `;
+    list.appendChild(li);
+  });
 }
