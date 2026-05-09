@@ -16,12 +16,14 @@ Pipes is a grid-based puzzle where players rotate tiles to connect a flow from s
 - Canvas-based rendering for smooth pipe drawing
 - Clean responsive UI built without any frameworks
 - Local tester for previewing any puzzle by date
-- 
+- Global leaderboard: submit your time after solving and see today's top 5 players worldwide
+
 **Built With**
 1. HTML
 2. CSS
 3. JavaScript
 4. HTML5 Canvas API
+5. Supabase (Global Leaderboard Database)
 
 **How To Run Locally**
 1. Clone the repository
