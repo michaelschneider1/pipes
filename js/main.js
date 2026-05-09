@@ -38,6 +38,7 @@ window.addEventListener('load', async () => {
     const name = document.getElementById('player-name').value.trim();
     if (!name) return;
     document.getElementById('leaderboard-entry').style.display = 'none';
+    document.getElementById('leaderboard').classList.remove('hidden');
     const scores = await saveScore(name, formatTime(seconds));
     renderLeaderboard(scores, name);
 });
@@ -117,7 +118,6 @@ function onSolved() {
   document.getElementById('countdown').textContent = `${hoursLeft}h ${minsLeft}m`;
 
   document.getElementById('game-over').classList.remove('hidden');
-  loadLeaderboard().then(scores => renderLeaderboard(scores, null));
 }
 
 function drawPreviews() {
