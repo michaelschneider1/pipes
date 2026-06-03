@@ -95,7 +95,7 @@ async function loadPuzzle(overrideNumber = null) {
     start.setHours(0, 0, 0, 0);
 
     const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24)) + 1;
-    const totalPuzzles = 30; //FIXED NUMBER! CHANGE WHEN ADD MORE PUZZLES
+    const totalPuzzles = 428;  
     puzzleNumber = ((diff - 1) % totalPuzzles) + 1;
   }
 
